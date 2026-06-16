@@ -4,9 +4,15 @@ import dev.k1goms.UserControl.enums.Priority;
 import dev.k1goms.UserControl.enums.Status;
 import dev.k1goms.UserControl.model.user.UserModel;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor //Nao se cria um allargs, porque o id é gerado automaticamente pelo banco
 @Entity
 @Table(name = "tb_tasks")
 public class TaskModel {
@@ -27,9 +33,6 @@ public class TaskModel {
     @OneToMany(mappedBy = "task")
     private List<UserModel> users;
 
-    public TaskModel() {
-    }
-
     public TaskModel(String name, Priority priority, Status status, List<UserModel> users) {
         this.name = name;
         this.priority = priority;
@@ -37,35 +40,14 @@ public class TaskModel {
         this.users = users;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Priority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Priority priority) {
-        this.priority = priority;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public List<UserModel> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<UserModel> users) {
-        this.users = users;
+    @Override
+    public String toString() {
+        return "TaskModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", priority=" + priority +
+                ", status=" + status +
+                ", users=" + users.stream().map(UserModel::getId).toList() +
+                '}';
     }
 }

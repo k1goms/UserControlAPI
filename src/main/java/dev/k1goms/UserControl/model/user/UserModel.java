@@ -2,8 +2,14 @@ package dev.k1goms.UserControl.model.user;
 
 import dev.k1goms.UserControl.model.task.TaskModel;
 import jakarta.persistence.*;
-import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+
+@Getter
+@Setter
+@NoArgsConstructor //Nao se cria um allargs, porque o id é gerado automaticamente pelo banco
 @Entity
 @Table(name = "tb_users")
 public class UserModel {
@@ -23,36 +29,21 @@ public class UserModel {
     @JoinColumn(name = "task_id") //Chave estrangeira
     private TaskModel task;
 
-    public UserModel() {
-    }
-
-    public UserModel(String name, String email, Integer age) {
+    public UserModel(String name, String email, Integer age, TaskModel task) {
         this.name = name;
         this.email = email;
         this.age = age;
+        this.task = task;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                ", task=" + (task != null ? task.getName() : "no task") +
+                '}';
     }
 }
